@@ -1,10 +1,27 @@
-import maya.cmds as cmds
+# RENAME_UI_APP ***************************************************************************
+# content     A tool to rename objects in Maya.
+
+# version     1.0
+# date        27-06-2025
+
+# dependency  PySide, Maya_API
+# how_to      create_rename_ui()
+# todo        more cool features, will add later
+
+# license     MIT
+# author      Thanh Hai <https://github.com/ThanhHaiii03>
+
+
+
 from PySide6.QtWidgets import QMessageBox
 import webbrowser
+import maya.cmds as cmds
 
-def rename_function_rename():
+def rename_function_rename(): 
+#Rename the object
 	selection = cmds.ls(selection=True)
 	text_input_rename = cmds.textField('rename', query = True, text = True)
+
 	if not selection:
 		QMessageBox.warning(None, 'Warning', 'Please select at least 1 object')
 		return
@@ -13,27 +30,27 @@ def rename_function_rename():
 		print(new_name)
 
 def rename_function_prefix():
+#add prefix to object name
 	selection = cmds.ls(selection=True)
 	text_input_prefix = cmds.textField('prefix', query = True, text = True)
 
 	if not selection:
 		QMessageBox.warning(None, 'Warning', 'Please select at least 1 object')
 		return
-
 	for obj in selection:
 		new_name = str(text_input_prefix) + "_" + str(obj) 
 		cmds.rename(obj,new_name)
 		print(new_name)
 		
 
-
 def rename_function_suffix():
+#add suffix to object name
 	selection = cmds.ls(selection=True)
 	text_input_prefix = cmds.textField('suffix', query = True, text = True)
+
 	if not selection:
 		QMessageBox.warning(None, 'Warning', 'Please select at least 1 object')
 		return
-
 	for obj in selection:
 		new_name = str(obj) + "_" + str(text_input_prefix)
 		cmds.rename(obj,new_name)
@@ -45,10 +62,11 @@ def reset_name():
 		QMessageBox.warning(None, 'Warning', 'Please select at least 1 object')
 		return
 	for obj in selection:
-		reset_Name=obj.split(':')[-1]
+		reset_name=obj.split(':')[-1]
 		cmds.rename(obj,reset_Name)
 
 def number():
+#Add number to object name
 	selection = cmds.ls(sl=True)
 	base_name = cmds.textField('rename', query=True, text=True)
 	start_number= cmds.intField('startnumber', query=True, value=True)
@@ -64,6 +82,7 @@ def number():
 
 
 def adaptive_ui():
+#Layout UI
 	ui_title = 'MyUI'
 	if cmds.window(ui_title, exists=True):
 		print('CLOSE duplicate window')
@@ -73,9 +92,9 @@ def adaptive_ui():
 	cmds.columnLayout(adjustableColumn=True)
 	
 	cmds.image(image='E:\\Tech_Art\\TechArt_TD_Alex\\Week_8\\Assignment\\Rename.jpg', width= 300, height= 210)
-	cmds.rowLayout( numberOfColumns=5,          # 2 cột: nhãn + ô gõ
-                	columnWidth2=(60, 1),       # cột 1 cố định 60 px, cột 2 tạm 1 px
-                	adjustableColumn=2,         # cột 2 được phép giãn hết
+	cmds.rowLayout( numberOfColumns=5,          # 2 columns: label + typing cell
+                	columnWidth2=(60, 1),       # column 1 fixed 60 px, column 2 temporary 1 px
+                	adjustableColumn=2,         # column 2 is allowed to expand completely
                 	columnAlign2=('left','left'),
                 	columnAttach=[(1,'left',5), (2,'both',5)] )
 
@@ -84,17 +103,17 @@ def adaptive_ui():
 	cmds.setParent('..')
 	
 	cmds.rowLayout(numberOfColumns=5,
-                	columnWidth3=(1,3,1),       # cột 1 cố định 60 px, cột 2 tạm 1 px
-                	        # cột 2 được phép giãn hết
+                	columnWidth3=(1,3,1),      
                 	columnAlign4=('left','left','right','right'),
                 	columnAttach=[(3,'both',5), (1,'both',5), (3,'both',5)] )
+
 	cmds.text(label='Start:',align='center')
 	number_user = cmds.intField('startnumber',width=50)
 	cmds.text(label='Padding:',align='center')
 	padding_user = cmds.intField('paddingnumber',width=50)
 	cmds.setParent('..')
 
-	cmds.rowLayout( numberOfColumns=3,          # 2 cột: nhãn + ô gõ
+	cmds.rowLayout( numberOfColumns=3,          
                 	columnWidth3=(100, 100, 100),
                 	columnAlign3=('left', 'center', 'right'),
                 	adjustableColumn3=2,
@@ -105,16 +124,12 @@ def adaptive_ui():
 	cmds.button(label='Number', command='number()')
 	cmds.setParent('..')
 
-
-
-
 	text_user_suffix = cmds.textField('suffix',placeholderText="Add_suffix")
 	text_user_prefix = cmds.textField('prefix',placeholderText="Add_prefix")
-	
-
 	
 	cmds.button(label='Add_suffix', command= 'rename_function_suffix()')
 	cmds.button(label='Add_prefix', command= 'rename_function_prefix()')
 	cmds.button(label= 'Help', command= "webbrowser.open('www.alexanderrichtertd.com')")
 	cmds.showWindow()
+
 adaptive_ui()
