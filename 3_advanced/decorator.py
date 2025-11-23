@@ -34,7 +34,15 @@ import time
 # DECORATOR
 def print_process(func):
     def wrapper(*args, **kwargs):
-        func(arg)                  # main_function
+        
+        print(f'START {func.__name__}')
+        start = time.time()
+
+        result = func(*args, **kwargs)                  # main_function
+        end = time.time()
+        print(f'END - Processing time: {end - start:.2f} seconds')
+        
+        return result
     return wrapper
 
 
@@ -45,10 +53,15 @@ def short_sleeping(name):
     time.sleep(.1)
     print(name)
 
+@print_process
 def mid_sleeping():
     time.sleep(2)
 
+@print_process
 def long_sleeping():
     time.sleep(4)
 
 short_sleeping("so sleepy")
+
+mid_sleeping()
+long_sleeping()
