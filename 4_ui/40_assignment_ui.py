@@ -48,7 +48,12 @@ A great opportunity to play with all the different widgets and connections.
         
     c) Connect the basic functionality to your application.
        (It's ok if your application isn't completely finished yet.) 
-
+       
+    "Because I haven’t found any AutoRig UI tool that matches the UI concept I’m developing, 
+    I couldn’t complete this part. My tool creates layouts based on my own design, 
+    so I’m not able to do this task yet."
+    
+    
     d) Commit as "DONE 4_ui" and push the updated version to "main/master".
 
 """
